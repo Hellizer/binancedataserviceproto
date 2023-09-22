@@ -1,0 +1,49 @@
+syntax = "proto3";
+package pb;
+
+option go_package = "github.com/Hellizer/binancedataserviceproto/pb;pb";
+
+service DataServ{
+    rpc GetTime(void) returns (ServerTime) {}
+    rpc GetKlines(KlinesRequest) returns (KlinesResponse){}
+    rpc GetFuturesPairs(void) returns (FuturesPairsResponse){}
+    rpc GetSocketData(stream SocketRequest) returns (stream SocketResponse){}
+}
+
+message void{
+}
+
+message ServerTime{
+    int64 time =1;
+}
+
+message KlinesRequest{
+    string  Symbol = 1;
+    string  Interval = 2;
+    int32   Limit = 3;
+}
+
+message KlinesResponse{
+    repeated string Klines = 1;
+}
+
+message FuturesPairsResponse{
+    repeated FuturesPair Pairs = 1;
+}   
+
+message FuturesPair{
+    string Symbol = 1;
+    string BaseAsset = 2;
+    double PriceStep = 3;
+    double LotStep = 4;
+}
+
+message SocketRequest{
+    string Symbol=1;
+    string Interval=2;
+    bool IsSubscribe = 3; 
+}
+
+message SocketResponse{
+    string Response =1;
+}
